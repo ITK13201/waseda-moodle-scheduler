@@ -3,9 +3,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Event(models.Model):
     id = models.BigAutoField(primary_key=True, editable=False)
-    uid = models.CharField(_("uid"), max_length=50, unique=True)
-    subject = models.CharField(_("科目名"), max_length=50)
-    title = models.CharField(_("タイトル"), max_length=50)
+    uid = models.CharField(_("uid"), max_length=100, unique=True)
+    subject = models.CharField(_("科目名"), max_length=200)
+    title = models.CharField(_("タイトル"), max_length=200)
     description = models.TextField(_("説明"), blank=True, null=True)
     begin_at = models.DateTimeField(_("開始日時"), blank=True, null=True)
     end_at = models.DateTimeField(_("終了日時"), blank=True, null=True)
