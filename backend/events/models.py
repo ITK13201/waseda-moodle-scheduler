@@ -13,6 +13,7 @@ class Event(models.Model):
 
     class Meta:
         verbose_name_plural = 'Event'
+        ordering = ['-begin_at']
 
     def __str__(self):
-        return f"[{self.subject}]------[{self.title}]"
+        return self.uid
