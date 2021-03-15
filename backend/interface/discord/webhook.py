@@ -29,11 +29,11 @@ def _get_data_to_update(event: dict, mode: str) -> str:
     
     text = previous_text + "\n" \
         + "```\n" \
-        + "科目名　:　" + str(subject) + "\n" \
-        + "タイトル:　" + str(title) + "\n" \
-        + "説明　　:　" + str(description) + "\n" \
+        + "科目: " + str(subject) + "\n" \
+        + "題名: " + str(title) + "\n" \
+        + "説明: " + str(description) + "\n" \
         + "\n" \
-        + "締め切り:　" + str(begin_at) + "\n" \
+        + "締め切り: " + str(begin_at) + "\n" \
         + "```"
 
     return text
