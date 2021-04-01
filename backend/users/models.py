@@ -11,4 +11,4 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:
-        verbose_name_plural = 'User'
+        verbose_name_plural = "User"

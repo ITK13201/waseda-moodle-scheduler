@@ -13,6 +13,10 @@ whitenoise = "*"
 dj-database-url = "*"
 
 [dev-packages]
+black = "==20.8b1"
+watchdog = "*"
+pyyaml = "*"
+argh = "*"
 
 [requires]
 python_version = "3.8"

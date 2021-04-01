@@ -10,6 +10,7 @@ from backend.interface.discord import webhook
 
 MOODLE_CALENDAR_URL = os.environ.get("MOODLE_CALENDAR_URL")
 
+
 class Command(BaseCommand):
     help = "Update events data"
 
@@ -19,9 +20,9 @@ class Command(BaseCommand):
             self.update_events()
         except Exception as err:
             traceback.print_exc()
-            self.stdout.write(self.style.ERROR('Failed updating events data'))
+            self.stdout.write(self.style.ERROR("Failed updating events data"))
         else:
-            self.stdout.write(self.style.SUCCESS('Successfully updating events data'))
+            self.stdout.write(self.style.SUCCESS("Successfully updating events data"))
 
     def update_events(self):
         events = self._get_events()
@@ -31,7 +32,7 @@ class Command(BaseCommand):
                 model_exists = True
             except Event.DoesNotExist:
                 model_exists = False
-            
+
             if model_exists:
                 if not model.last_modified_at == event["last_modified_at"]:
                     model.title = event["title"]
@@ -50,7 +51,7 @@ class Command(BaseCommand):
                     description=event["description"],
                     begin_at=event["begin_at"],
                     end_at=event["end_at"],
-                    last_modified_at=event["last_modified_at"]
+                    last_modified_at=event["last_modified_at"],
                 )
                 model.save()
 
@@ -71,8 +72,8 @@ class Command(BaseCommand):
                 "description": event.description,
                 "begin_at": event.begin.datetime,
                 "end_at": event.end.datetime,
-                "last_modified_at": event.last_modified.datetime
+                "last_modified_at": event.last_modified.datetime,
             }
             events_list.append(event_dict)
-        
+
         return events_list
