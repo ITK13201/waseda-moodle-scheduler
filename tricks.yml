@@ -1,7 +1,7 @@
 tricks:
-- watchdog.tricks.ShellCommandTrick:
-    shell_command: "black ./backend/"
-    patterns: ['*.py']
-    ignore_patterns: ['*/**/migrations/*.py']
-    ignore_directories: true
-    drop_during_process: true
+    - watchdog.tricks.ShellCommandTrick:
+        shell_command: "black ./backend/"
+        patterns: ['*.py']
+        ignore_patterns: ['*/**/migrations/*.py']
+        ignore_directories: true
+        drop_during_process: true

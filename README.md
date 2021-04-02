@@ -22,3 +22,9 @@ pipenv shell
 ```shell
 python manage.py update_events_data
 ```
+
+### Format "*.py" file automatically
+
+```shell
+pipenv run watch
+```
