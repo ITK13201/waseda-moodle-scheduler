@@ -1,12 +1,16 @@
 import os
 import requests
 import json
-from django.templatetags.static import static
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
 PREVIOUS_TEXT = {"new": "課題が**追加**されました．", "update": "課題が**更新**されました．"}
 COLOR = {"new": 5620992, "update": 14177041}
+ICON_PATH = {
+    "webhook": "https://raw.githubusercontent.com/ITK13201/waseda-moodle-scheduler/master/static/webhook.png",
+    "subject": "https://raw.githubusercontent.com/ITK13201/waseda-moodle-scheduler/master/static/subject.png",
+    "calendar": "https://raw.githubusercontent.com/ITK13201/waseda-moodle-scheduler/master/static/calendar.png",
+}
 
 
 def send_notification(event: dict, mode: str):
@@ -15,7 +19,7 @@ def send_notification(event: dict, mode: str):
 
     main_content = {
         "username": "task scheduler",
-        "avatar_url": static("webhook.png"),
+        "avatar_url": ICON_PATH["webhook"],
         "content": PREVIOUS_TEXT[mode],
         "embeds": [_get_contents_infomation(event, mode)],
     }
@@ -34,12 +38,12 @@ def _get_contents_infomation(event: dict, mode: str) -> dict:
     infomation = {
         "author": {
             "name": subject,
-            "icon_url": static("subject.png"),
+            "icon_url": ICON_PATH["subject"],
         },
         "title": title,
         "description": description,
         "timestamp": str(begin_at),
-        "footer": {"text": "締め切り", "icon_url": static("calendar.png")},
+        "footer": {"text": "締め切り", "icon_url": ICON_PATH["calendar"]},
         "color": COLOR[mode],
     }
 
