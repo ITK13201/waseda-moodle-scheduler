@@ -1,9 +1,12 @@
 import os
 import requests
+import json
+from django.templatetags.static import static
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
-PREVIOUS_TEXT = {"new": "課題が追加されました．", "update": "課題が更新されました．"}
+PREVIOUS_TEXT = {"new": "課題が**追加**されました．", "update": "課題が**更新**されました．"}
+COLOR = {"new": 5620992, "update": 14177041}
 
 
 def send_notification(event: dict, mode: str):
@@ -12,38 +15,32 @@ def send_notification(event: dict, mode: str):
 
     main_content = {
         "username": "task scheduler",
-        # "avatar_url": "",
-        "content": _get_data_to_update(event, mode),
+        "avatar_url": static("webhook.png"),
+        "content": PREVIOUS_TEXT[mode],
+        "embeds": [_get_contents_infomation(event, mode)],
     }
 
-    requests.post(webhook_url, main_content)
+    requests.post(
+        webhook_url, json.dumps(main_content), headers={"Content-Type": "application/json"}
+    )
 
 
-def _get_data_to_update(event: dict, mode: str) -> str:
+def _get_contents_infomation(event: dict, mode: str) -> dict:
     subject = event["subject"]
     title = event["title"]
     description = event["description"]
     begin_at = event["begin_at"]
-    previous_text = PREVIOUS_TEXT[mode]
 
-    text = (
-        previous_text
-        + "\n"
-        + "```\n"
-        + "科目: "
-        + str(subject)
-        + "\n"
-        + "題名: "
-        + str(title)
-        + "\n"
-        + "説明: "
-        + str(description)
-        + "\n"
-        + "\n"
-        + "締め切り: "
-        + str(begin_at)
-        + "\n"
-        + "```"
-    )
+    infomation = {
+        "author": {
+            "name": subject,
+            "icon_url": static("subject.png"),
+        },
+        "title": title,
+        "description": description,
+        "timestamp": str(begin_at),
+        "footer": {"text": "締め切り: ", "icon_url": static("calendar.png")},
+        "color": COLOR[mode],
+    }
 
-    return text
+    return infomation

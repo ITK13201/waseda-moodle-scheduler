@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
+"discord.py" = "*"
 
 [dev-packages]
 black = "==20.8b1"
@@ -23,3 +24,6 @@ python_version = "3.8"
 
 [scripts]
 watch = "watchmedo tricks-from tricks.yml"
+start = "python manage.py runserver"
+migrate = "python manage.py migrate"
+makemigrations = "python manage.py makemigrations"
