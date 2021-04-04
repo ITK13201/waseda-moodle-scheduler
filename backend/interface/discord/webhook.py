@@ -39,7 +39,7 @@ def _get_contents_infomation(event: dict, mode: str) -> dict:
         "title": title,
         "description": description,
         "timestamp": str(begin_at),
-        "footer": {"text": "締め切り: ", "icon_url": static("calendar.png")},
+        "footer": {"text": "締め切り", "icon_url": static("calendar.png")},
         "color": COLOR[mode],
     }
 
