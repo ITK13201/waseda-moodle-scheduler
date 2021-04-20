@@ -6,7 +6,7 @@ This is an application that receives the calendar information on Waseda moodle a
 
 ```shell
 pip install pipenv
-pipenv install
+pipenv install --dev
 ```
 
 ## Usage

@@ -1,6 +1,6 @@
 tricks:
     - watchdog.tricks.ShellCommandTrick:
-        shell_command: "black ./backend/"
+        shell_command: "black ${watch_src_path}"
         patterns: ['*.py']
         ignore_patterns: ['*/**/migrations/*.py']
         ignore_directories: true
