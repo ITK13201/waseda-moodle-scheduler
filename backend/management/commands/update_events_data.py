@@ -1,4 +1,3 @@
-import os
 import ics
 import traceback
 import requests
@@ -7,6 +6,7 @@ from django.conf import settings
 
 from backend.events.models import Event
 from backend.api.discord import webhook
+from backend.api.discord import bot
 
 
 MOODLE_CALENDAR_URL = settings.MOODLE_CALENDAR_URL
@@ -43,7 +43,8 @@ class Command(BaseCommand):
                     model.last_modified_at = event["last_modified_at"]
                     model.save()
 
-                    webhook.send_notification(event=event, mode="update")
+                    # webhook.send_notification(event=event, mode="update")
+                    bot.send_notification(event=event, mode="update")
             else:
                 model = Event(
                     uid=event["uid"],
@@ -56,7 +57,8 @@ class Command(BaseCommand):
                 )
                 model.save()
 
-                webhook.send_notification(event=event, mode="new")
+                # webhook.send_notification(event=event, mode="new")
+                bot.send_notification(event=event, mode="new")
 
     def _get_events(self) -> list:
         response = requests.get(MOODLE_CALENDAR_URL)

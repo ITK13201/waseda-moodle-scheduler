@@ -6,8 +6,7 @@ import base64
 from django.conf import settings
 from github import Github
 
-# GITHUB_ACCESS_TOKEN = settings.GITHUB_ACCESS_TOKEN
-GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN")
+GITHUB_ACCESS_TOKEN = settings.GITHUB_ACCESS_TOKEN
 
 
 def get_subjects() -> dict:
