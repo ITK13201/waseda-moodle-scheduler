@@ -5,7 +5,7 @@ import requests
 from django.core.management.base import BaseCommand
 
 from backend.events.models import Event
-from backend.interface.discord import webhook
+from backend.api.discord import webhook
 
 
 MOODLE_CALENDAR_URL = os.environ.get("MOODLE_CALENDAR_URL")
