@@ -12,6 +12,7 @@ gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
 "discord.py" = "*"
+pygithub = "*"
 
 [dev-packages]
 black = "==20.8b1"

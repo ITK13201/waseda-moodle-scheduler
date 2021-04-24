@@ -1,8 +1,9 @@
 import os
 import requests
 import json
+from django.conf import settings
 
-DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
+DISCORD_WEBHOOK_URL = settings.DISCORD_WEBHOOK_URL
 
 PREVIOUS_TEXT = {"new": "課題が**追加**されました．", "update": "課題が**更新**されました．"}
 COLOR = {"new": 5620992, "update": 14177041}

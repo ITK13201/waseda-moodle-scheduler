@@ -114,3 +114,12 @@ AUTHENTICATION_BACKENDS = (
     # 管理サイト用
     "django.contrib.auth.backends.ModelBackend",
 )
+
+
+# ====================
+# Secret Environment
+# ====================
+MOODLE_CALENDAR_URL = os.environ.get("MOODLE_CALENDAR_URL")
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
+GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN")
+GITHUB_PASSWORD = os.environ.get("GITHUB_PASSWORD")
