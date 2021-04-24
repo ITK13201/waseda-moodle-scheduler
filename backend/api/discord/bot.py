@@ -21,13 +21,8 @@ def send_notification(event: dict, mode: str):
         "embed": get_embed_contents(event, mode),
     }
 
-    headers = {
-        "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
-        "Content-Type": "application/json"
-    }
+    headers = {"Authorization": f"Bot {DISCORD_BOT_TOKEN}", "Content-Type": "application/json"}
 
-    requests.post(
-        url, json.dumps(main_content), headers=headers
-    )
+    requests.post(url, json.dumps(main_content), headers=headers)
 
     print(main_content)

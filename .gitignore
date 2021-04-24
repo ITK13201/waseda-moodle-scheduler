@@ -8,4 +8,5 @@ db.sqlite3
 .vscode
 *.code-workspace
 .idea/
-tmp
+tmp/
+deploy/
