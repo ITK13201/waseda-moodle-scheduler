@@ -11,10 +11,11 @@ class Event(models.Model):
     begin_at = models.DateTimeField(_("開始日時"), blank=True, null=True)
     end_at = models.DateTimeField(_("終了日時"), blank=True, null=True)
     last_modified_at = models.DateTimeField(_("更新日時"), blank=True, null=True)
+    notified_at = models.DateTimeField(_("通知日時"), blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "Event"
-        ordering = ["-begin_at"]
+        verbose_name = "event"
+        verbose_name_plural = "events"
 
     def __str__(self):
         return self.uid
