@@ -23,9 +23,11 @@ argh = "*"
 python_version = "3.8"
 
 [scripts]
-watch = "watchmedo tricks-from tricks.yml"
 start = "python manage.py runserver"
 migrate = "python manage.py migrate"
 makemigrations = "python manage.py makemigrations"
 shell = "python manage.py shell"
+watch = "watchmedo tricks-from tricks.yml"
+format = "black ."
 update = "python manage.py update_events_data"
+notify = "python manage.py notify_deadline"

@@ -20,11 +20,23 @@ pipenv shell
 ### Update the calendar information and send a notification
 
 ```shell
-python manage.py update_events_data
+pipenv run update
 ```
 
-### Format "*.py" file automatically
+### Notify the calendar information just before the deadline.
+
+```shell
+pipenv run notify
+```
+
+### Tracking and Format "*.py" file
 
 ```shell
 pipenv run watch
+```
+
+### Format changed "*.py" file
+
+```shell
+pipenv run format
 ```
