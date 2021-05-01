@@ -19,3 +19,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.uid
+
+    @property
+    def dict_type(self):
+        return self.__dict__

@@ -1,5 +1,9 @@
-PREVIOUS_TEXT = {"new": "課題が**追加**されました．", "update": "課題が**更新**されました．"}
-COLOR = {"new": 5620992, "update": 14177041}
+PREVIOUS_TEXT = {
+    "new": "課題が**追加**されました．",
+    "update": "課題が**更新**されました．",
+    "notify": "課題の**締め切り**まであと3日です．",
+}
+COLOR = {"new": 0x55C500, "update": 0xD85311, "notify": 0xFF69B4}
 ICON_PATH = {
     "webhook": "https://raw.githubusercontent.com/ITK13201/waseda-moodle-scheduler/master/static/webhook.png",
     "subject": "https://raw.githubusercontent.com/ITK13201/waseda-moodle-scheduler/master/static/subject.png",

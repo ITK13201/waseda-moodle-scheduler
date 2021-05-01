@@ -13,9 +13,19 @@ class EventAdmin(admin.ModelAdmin):
         "begin_at",
         "end_at",
         "last_modified_at",
+        "notified_at",
     )
     ordering = ("-begin_at",)
-    fields = ("uid", "subject", "title", "description", "begin_at", "end_at", "last_modified_at")
+    fields = (
+        "uid",
+        "subject",
+        "title",
+        "description",
+        "begin_at",
+        "end_at",
+        "last_modified_at",
+        "notified_at",
+    )
 
 
 admin.site.register(Event, EventAdmin)
