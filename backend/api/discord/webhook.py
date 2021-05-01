@@ -18,5 +18,7 @@ def send_notification(event: dict, mode: str):
     }
 
     requests.post(
-        webhook_url, json.dumps(main_content), headers={"Content-Type": "application/json"}
+        webhook_url,
+        json.dumps(main_content),
+        headers={"Content-Type": "application/json"},
     )

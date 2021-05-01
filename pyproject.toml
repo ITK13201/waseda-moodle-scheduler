@@ -1,9 +1,16 @@
 [tool.black]
-line-length = 99
+line-length = 88
+include = '\.pyi?$'
 exclude = '''
-(
-    migrations
-    | __pycache__
-    | .venv
-)
+/(
+    \.git
+  | \.tox
+  | \.venv
+  | _build
+  | __pycache__
+  | buck-out
+  | build
+  | dist
+  | migrations
+)/
 '''
