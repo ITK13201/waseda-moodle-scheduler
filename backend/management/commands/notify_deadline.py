@@ -4,7 +4,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 from backend.events.models import Event
-from backend.api.discord import bot
+from backend.usecases.discord import bot
 
 DAYS_DIFF = 3
 MINUTES_DIFF = 40

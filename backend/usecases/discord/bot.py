@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 
 from .utils import PREVIOUS_TEXT, get_embed_contents
-from backend.api.github.subjects import get_subjects
+from backend.usecases.github.subjects import get_subjects
 
 DISCORD_BOT_TOKEN = settings.DISCORD_BOT_TOKEN
 SUBJECTS = get_subjects()
