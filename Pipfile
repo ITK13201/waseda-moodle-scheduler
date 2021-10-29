@@ -12,6 +12,7 @@ gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
 pygithub = "*"
+djangorestframework = "*"
 
 [dev-packages]
 black = "==20.8b1"

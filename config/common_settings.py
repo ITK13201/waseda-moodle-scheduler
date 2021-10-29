@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # django-rest-framework
+    "rest_framework",
     # backend apps
     "backend.apps.BackendConfig",
     "backend.users.apps.UsersConfig",

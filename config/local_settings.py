@@ -37,7 +37,7 @@ LOGGING = {
     },
     "handlers": {
         "console": {
-            "level": "INFO",
+            "level": "DEBUG",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
             "formatter": "verbose",
@@ -63,10 +63,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "app": {
+        "": {
             "handlers": ["console"],
             "level": "DEBUG",
             "propagate": False,
         },
+        # "django.db.backends": {"handlers": ["console"], "level": "DEBUG"},
     },
 }
