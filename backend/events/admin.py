@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event
+from .models import Event, EventProgress
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -28,4 +28,11 @@ class EventAdmin(admin.ModelAdmin):
     )
 
 
+class EventProgressAdmin(admin.ModelAdmin):
+    list_display = ("id", "event", "user", "status")
+    ordering = ("status",)
+    fields = ("event", "user", "status")
+
+
 admin.site.register(Event, EventAdmin)
+admin.site.register(EventProgress, EventProgressAdmin)

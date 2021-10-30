@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+STATUS_CHOICES = ((0, "TODO"), (1, "DOING"), (2, "DONE"))
+
 
 class Event(models.Model):
     id = models.BigAutoField(primary_key=True, editable=False)
@@ -14,8 +16,8 @@ class Event(models.Model):
     notified_at = models.DateTimeField(_("通知日時"), blank=True, null=True)
 
     class Meta:
-        verbose_name = "event"
-        verbose_name_plural = "events"
+        verbose_name = "Event"
+        verbose_name_plural = "Events"
 
     def __str__(self):
         return self.uid
@@ -23,3 +25,21 @@ class Event(models.Model):
     @property
     def dict_type(self):
         return self.__dict__
+
+
+class EventProgress(models.Model):
+    id = models.BigAutoField(primary_key=True, editable=False)
+    event = models.ForeignKey(
+        "events.Event", on_delete=models.CASCADE, verbose_name="イベント"
+    )
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name="ユーザ")
+    status = models.IntegerField(
+        _("進捗状況"), blank=False, null=False, choices=STATUS_CHOICES
+    )
+
+    class Meta:
+        verbose_name = "EventProgress"
+        verbose_name_plural = "EventProgresses"
+
+    def get_status(self) -> str:
+        return self.get_status_display()
