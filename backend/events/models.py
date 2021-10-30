@@ -27,7 +27,14 @@ class Event(models.Model):
         return self.__dict__
 
 
+class EventProgressesQuerySet(models.QuerySet):
+    def related_other_models(self):
+        return self.select_related("event", "user")
+
+
 class EventProgress(models.Model):
+    objects = EventProgressesQuerySet.as_manager()
+
     id = models.BigAutoField(primary_key=True, editable=False)
     event = models.ForeignKey(
         "events.Event", on_delete=models.CASCADE, verbose_name="イベント"
