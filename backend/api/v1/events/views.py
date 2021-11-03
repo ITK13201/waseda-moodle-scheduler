@@ -1,5 +1,8 @@
+import datetime
 import logging
 
+from dateutil.tz import gettz
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
@@ -36,6 +39,18 @@ class EventsAPIView(APIView):
                 events = Event.objects.filter(**queries).order_by("-subject", "-title")[
                     :limit
                 ]
-            return Response(events.values(), status=status.HTTP_200_OK)
+
+            # utc to jst
+            data = list(events.values())
+            for obj in data:
+                for key, value in obj.items():
+                    if isinstance(value, datetime.datetime):
+                        obj[key] = self._convert_utc_to_jst(value)
+
+            return Response(data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def _convert_utc_to_jst(self, dt_utc: datetime.datetime) -> datetime.datetime:
+        dt_jst = dt_utc.astimezone(gettz(settings.TIME_ZONE))
+        return dt_jst
