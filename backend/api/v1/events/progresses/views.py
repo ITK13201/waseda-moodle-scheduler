@@ -1,13 +1,15 @@
 import logging
+from typing import List
 
+from django.forms.models import model_to_dict
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
-from django.forms.models import model_to_dict
 
 from .serializer import EventProgressesApiSerializer
 from backend.events.models import EventProgress, EventProgressesQuerySet
+from backend.usecases.utils import convert_datetime_timezone
 
 
 logger = logging.getLogger(__name__)
@@ -40,14 +42,17 @@ class EventProgressesAPIView(APIView):
                     .filter(**queries)
                     .order_by("-status", "-event__subject", "-event__title")[:limit]
                 )
+
+            dataset = self._format_dataset(event_progresses=event_progresses)
+
             return Response(
-                self._format_dataset(event_progresses=event_progresses),
+                dataset,
                 status=status.HTTP_200_OK,
             )
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def _format_dataset(self, event_progresses: EventProgressesQuerySet) -> list:
+    def _format_dataset(self, event_progresses: EventProgressesQuerySet) -> List[dict]:
         dataset = []
         for event_progress in event_progresses:
             data = {}
@@ -55,4 +60,8 @@ class EventProgressesAPIView(APIView):
             data["event"] = model_to_dict(event_progress.event)
             data["status"] = event_progress.status
             dataset.append(data)
+
+        for i, data in enumerate(dataset):
+            dataset[i] = convert_datetime_timezone(data)
+
         return dataset
