@@ -10,6 +10,7 @@ from rest_framework.request import Request
 from .serializer import (
     EventProgressesApiGETSerializer,
     EventProgressesApiPOSTSerializer,
+    EventProgressesApiDELETESerializer,
 )
 from backend.events.models import EventProgress, EventProgressesQuerySet, Event
 from backend.usecases.utils import convert_datetime_timezone
@@ -101,6 +102,29 @@ class EventProgressesAPIView(APIView):
             return Response(
                 dict(username=username, uid=uid, status=status_value),
                 status=status.HTTP_201_CREATED,
+            )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request: Request) -> Response:
+        params = request.query_params.dict()
+
+        serializer = EventProgressesApiDELETESerializer(data=params)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            username = validated_data["username"]
+            uid = validated_data["uid"]
+            logger.info(validated_data)
+
+            event = Event.objects.get(uid=uid)
+            user = User.objects.get(username=username)
+
+            progress = EventProgress.objects.get(event=event, user=user)
+            progress.delete()
+
+            return Response(
+                dict(username=username, uid=uid),
+                status=status.HTTP_200_OK,
             )
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -117,6 +117,9 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
 )
 
+# if redirect because of appending slash, post and delete method change GET method!
+APPEND_SLASH = False
+
 
 # ====================
 # Secret Environment

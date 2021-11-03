@@ -18,7 +18,7 @@ JST = tz.gettz("Asia/Tokyo")
 UTC = tz.gettz("UTC")
 
 # sample query
-# GET /api/v1/events?title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
+# GET /api/v1/events/?title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
 class EventsApiSerializer(serializers.Serializer):
     subject = serializers.CharField(label="科目名", max_length=200, required=False)
     title = serializers.CharField(label="タイトル", max_length=200, required=False)
