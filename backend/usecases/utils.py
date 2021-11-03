@@ -3,6 +3,9 @@ import datetime
 from dateutil.tz import gettz
 from django.conf import settings
 
+JST = gettz("Asia/Tokyo")
+UTC = gettz("UTC")
+
 
 def convert_datetime_timezone(data: dict) -> dict:
     for key, value in data.items():

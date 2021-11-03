@@ -1,12 +1,9 @@
 from rest_framework import serializers
-import datetime
-import pytz
-from dateutil import tz
 
 from django.core.validators import RegexValidator
 
 from backend.users.models import User
-from backend.events.models import STATUS_CHOICES
+from backend.events.models import STATUS_CHOICES, Event
 
 ORDER_VALIDATOR = RegexValidator(
     regex="(ASC|DESC)", message="Order param must be ASC or DESC."
@@ -19,12 +16,10 @@ REPLACED_VALUES_WITH_QUERY = {
     "to_deadline": "event__begin_at__lte",
     "status": "status",
 }
-JST = tz.gettz("Asia/Tokyo")
-UTC = tz.gettz("UTC")
 
 # sample query
 # GET /api/v1/events/progresses?username=taro&title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
-class EventProgressesApiSerializer(serializers.Serializer):
+class EventProgressesApiGETSerializer(serializers.Serializer):
     username = serializers.CharField(label="ユーザ名", max_length=200, required=True)
     subject = serializers.CharField(label="科目名", max_length=200, required=False)
     title = serializers.CharField(label="タイトル", max_length=200, required=False)
@@ -42,7 +37,9 @@ class EventProgressesApiSerializer(serializers.Serializer):
         ],
         required=False,
     )
-    status = serializers.ChoiceField(choices=STATUS_CHOICES, required=False)
+    status = serializers.ChoiceField(
+        label="進捗状況", choices=STATUS_CHOICES, required=False
+    )
     order = serializers.CharField(
         label="昇順/降順", default="DESC", validators=[ORDER_VALIDATOR], required=False
     )
@@ -66,3 +63,30 @@ class EventProgressesApiSerializer(serializers.Serializer):
         value = d.pop(old_key, default_value)
         if value is not None:
             d[new_key] = value
+
+
+# POST /api/v1/events/progresses?username=taro&uid=xxxx@wsdmoodle.waseda.jp&status=1
+class EventProgressesApiPOSTSerializer(serializers.Serializer):
+    username = serializers.CharField(label="ユーザ名", max_length=200, required=True)
+    uid = serializers.CharField(label="uid", max_length=200, required=True)
+    status = serializers.ChoiceField(
+        label="進捗状況", choices=STATUS_CHOICES, default=0, required=False
+    )
+
+    def validate_username(self, data: str):
+        if data:
+            try:
+                User.objects.get(username=data)
+            except User.DoesNotExist:
+                raise serializers.ValidationError("User whose this username Not Found.")
+
+        return data
+
+    def validate_uid(self, data: str):
+        if data:
+            try:
+                Event.objects.get(uid=data)
+            except Event.DoesNotExist:
+                raise serializers.ValidationError("Event with this uid Not Found.")
+
+        return data

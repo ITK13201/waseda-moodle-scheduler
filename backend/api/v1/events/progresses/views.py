@@ -7,9 +7,13 @@ from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
 
-from .serializer import EventProgressesApiSerializer
-from backend.events.models import EventProgress, EventProgressesQuerySet
+from .serializer import (
+    EventProgressesApiGETSerializer,
+    EventProgressesApiPOSTSerializer,
+)
+from backend.events.models import EventProgress, EventProgressesQuerySet, Event
 from backend.usecases.utils import convert_datetime_timezone
+from backend.users.models import User
 
 
 logger = logging.getLogger(__name__)
@@ -19,10 +23,10 @@ class EventProgressesAPIView(APIView):
     authentication_classes = (authentication.BasicAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request: Request):
+    def get(self, request: Request) -> Response:
         params = request.query_params.dict()
 
-        serializer = EventProgressesApiSerializer(data=params)
+        serializer = EventProgressesApiGETSerializer(data=params)
         if serializer.is_valid():
             validated_data = serializer.validated_data
             logger.info(validated_data)
@@ -65,3 +69,38 @@ class EventProgressesAPIView(APIView):
             dataset[i] = convert_datetime_timezone(data)
 
         return dataset
+
+    def post(self, request: Request) -> Response:
+        data = request.data
+
+        serializer = EventProgressesApiPOSTSerializer(data=data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            username = validated_data["username"]
+            uid = validated_data["uid"]
+            status_value = validated_data["status"]
+            logger.info(validated_data)
+
+            event = Event.objects.get(uid=uid)
+            user = User.objects.get(username=username)
+
+            try:
+                progress = EventProgress.objects.get(
+                    event=event,
+                    user=user,
+                )
+            except EventProgress.DoesNotExist:
+                progress = EventProgress(
+                    event=event,
+                    user=user,
+                )
+            finally:
+                progress.status = status_value
+                progress.save()
+
+            return Response(
+                dict(username=username, uid=uid, status=status_value),
+                status=status.HTTP_201_CREATED,
+            )
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
