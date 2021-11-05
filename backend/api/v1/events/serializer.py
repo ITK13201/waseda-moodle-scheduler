@@ -1,9 +1,12 @@
+import logging
+from copy import deepcopy
+
 from rest_framework import serializers
-import datetime
-import pytz
-from dateutil import tz
 
 from django.core.validators import RegexValidator
+from django.db.models import QuerySet
+
+from backend.events.models import Event
 
 ORDER_VALIDATOR = RegexValidator(
     regex="(ASC|DESC)", message="Order param must be ASC or DESC."
@@ -14,8 +17,8 @@ REPLACED_VALUES_WITH_QUERY = {
     "from_deadline": "begin_at__gte",
     "to_deadline": "begin_at__lte",
 }
-JST = tz.gettz("Asia/Tokyo")
-UTC = tz.gettz("UTC")
+
+logger = logging.getLogger(__name__)
 
 # sample query
 # GET /api/v1/events/?title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
@@ -49,7 +52,26 @@ class EventsApiSerializer(serializers.Serializer):
             )
         return data
 
-    def queries(self, data):
+    def search(self) -> QuerySet[Event]:
+        validated_data = deepcopy(self.validated_data)
+        logger.info(validated_data)
+        limit = validated_data.pop("limit")
+        order = validated_data.pop("order")
+
+        queries = self._queries(validated_data)
+
+        if order == "ASC":
+            events = Event.objects.filter(**queries).order_by("subject", "title")[
+                :limit
+            ]
+        else:
+            events = Event.objects.filter(**queries).order_by("-subject", "-title")[
+                :limit
+            ]
+
+        return events
+
+    def _queries(self, data):
         for old_key, new_key in REPLACED_VALUES_WITH_QUERY.items():
             self._change_dict_key(data, old_key, new_key)
         return data
