@@ -12,9 +12,8 @@ from .serializer import (
     EventProgressesApiPOSTSerializer,
     EventProgressesApiDELETESerializer,
 )
-from backend.events.models import EventProgress, EventProgressesQuerySet, Event
+from backend.events.models import EventProgressesQuerySet
 from backend.usecases.utils import convert_datetime_timezone
-from backend.users.models import User
 
 
 logger = logging.getLogger(__name__)
@@ -29,26 +28,8 @@ class EventProgressesAPIView(APIView):
 
         serializer = EventProgressesApiGETSerializer(data=params)
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            logger.info(validated_data)
-            limit = validated_data.pop("limit")
-            order = validated_data.pop("order")
-
-            queries = serializer.queries(validated_data)
-            if order == "ASC":
-                event_progresses = (
-                    EventProgress.objects.related_other_models()
-                    .filter(**queries)
-                    .order_by("status", "event__subject", "event__title")[:limit]
-                )
-            else:
-                event_progresses = (
-                    EventProgress.objects.related_other_models()
-                    .filter(**queries)
-                    .order_by("-status", "-event__subject", "-event__title")[:limit]
-                )
-
-            dataset = self._format_dataset(event_progresses=event_progresses)
+            progresses = serializer.search()
+            dataset = self._format_dataset(progresses=progresses)
 
             return Response(
                 dataset,
@@ -57,13 +38,13 @@ class EventProgressesAPIView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def _format_dataset(self, event_progresses: EventProgressesQuerySet) -> List[dict]:
+    def _format_dataset(self, progresses: EventProgressesQuerySet) -> List[dict]:
         dataset = []
-        for event_progress in event_progresses:
+        for progress in progresses:
             data = {}
-            data["id"] = event_progress.id
-            data["event"] = model_to_dict(event_progress.event)
-            data["status"] = event_progress.status
+            data["id"] = progress.id
+            data["event"] = model_to_dict(progress.event)
+            data["status"] = progress.status
             dataset.append(data)
 
         for i, data in enumerate(dataset):
