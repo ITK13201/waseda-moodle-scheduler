@@ -76,30 +76,13 @@ class EventProgressesAPIView(APIView):
 
         serializer = EventProgressesApiPOSTSerializer(data=data)
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            progress_status = validated_data["status"]
-            logger.info(validated_data)
-
-            progress: EventProgress = None
-            try:
-                progress = EventProgress.objects.get(
-                    event=serializer.event,
-                    user=serializer.user,
-                )
-            except EventProgress.DoesNotExist:
-                progress = EventProgress(
-                    event=serializer.event,
-                    user=serializer.user,
-                )
-            finally:
-                progress.status = progress_status
-                progress.save()
+            progress = serializer.save()
 
             return Response(
                 dict(
-                    username=validated_data["username"],
-                    uid=validated_data["uid"],
-                    status=progress_status,
+                    username=progress.user.username,
+                    uid=progress.event.uid,
+                    status=progress.status,
                 ),
                 status=status.HTTP_201_CREATED,
             )

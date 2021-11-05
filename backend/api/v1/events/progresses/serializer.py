@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import serializers
 
 from django.core.validators import RegexValidator
@@ -16,6 +18,8 @@ REPLACED_VALUES_WITH_QUERY = {
     "to_deadline": "event__begin_at__lte",
     "status": "status",
 }
+
+logger = logging.getLogger(__name__)
 
 # sample query
 # GET /api/v1/events/progresses/?username=taro&title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
@@ -92,6 +96,29 @@ class EventProgressesApiPOSTSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Event with this uid Not Found.")
 
         return data
+
+    def save(self, commit=True) -> EventProgress:
+        validated_data = self.validated_data
+        progress_status = validated_data["status"]
+        logger.info(validated_data)
+
+        progress: EventProgress = None
+        if commit:
+            try:
+                progress = EventProgress.objects.related_other_models().get(
+                    event=self.event,
+                    user=self.user,
+                )
+            except EventProgress.DoesNotExist:
+                progress = EventProgress(
+                    event=self.event,
+                    user=self.user,
+                )
+            finally:
+                progress.status = progress_status
+                progress.save()
+
+        return progress
 
 
 # DELETE /api/v1/events/progresses/?username=taro&uid=xxxx@wsdmoodle.waseda.jp
