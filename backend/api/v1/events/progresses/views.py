@@ -77,30 +77,30 @@ class EventProgressesAPIView(APIView):
         serializer = EventProgressesApiPOSTSerializer(data=data)
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            username = validated_data["username"]
-            uid = validated_data["uid"]
-            status_value = validated_data["status"]
+            progress_status = validated_data["status"]
             logger.info(validated_data)
 
-            event = Event.objects.get(uid=uid)
-            user = User.objects.get(username=username)
-
+            progress: EventProgress = None
             try:
                 progress = EventProgress.objects.get(
-                    event=event,
-                    user=user,
+                    event=serializer.event,
+                    user=serializer.user,
                 )
             except EventProgress.DoesNotExist:
                 progress = EventProgress(
-                    event=event,
-                    user=user,
+                    event=serializer.event,
+                    user=serializer.user,
                 )
             finally:
-                progress.status = status_value
+                progress.status = progress_status
                 progress.save()
 
             return Response(
-                dict(username=username, uid=uid, status=status_value),
+                dict(
+                    username=validated_data["username"],
+                    uid=validated_data["uid"],
+                    status=progress_status,
+                ),
                 status=status.HTTP_201_CREATED,
             )
         else:
@@ -116,11 +116,7 @@ class EventProgressesAPIView(APIView):
             uid = validated_data["uid"]
             logger.info(validated_data)
 
-            event = Event.objects.get(uid=uid)
-            user = User.objects.get(username=username)
-
-            progress = EventProgress.objects.get(event=event, user=user)
-            progress.delete()
+            serializer.progress.delete()
 
             return Response(
                 dict(username=username, uid=uid),

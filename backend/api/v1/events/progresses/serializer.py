@@ -48,7 +48,7 @@ class EventProgressesApiGETSerializer(serializers.Serializer):
     def validate_username(self, data: str):
         if data:
             try:
-                User.objects.get(username=data)
+                self.user = User.objects.get(username=data)
             except User.DoesNotExist:
                 raise serializers.ValidationError("User whose this username Not Found.")
 
@@ -72,11 +72,13 @@ class EventProgressesApiPOSTSerializer(serializers.Serializer):
     status = serializers.ChoiceField(
         label="進捗状況", choices=STATUS_CHOICES, default=0, required=False
     )
+    user: User = None
+    event: Event = None
 
     def validate_username(self, data: str):
         if data:
             try:
-                User.objects.get(username=data)
+                self.user = User.objects.get(username=data)
             except User.DoesNotExist:
                 raise serializers.ValidationError("User whose this username Not Found.")
 
@@ -85,7 +87,7 @@ class EventProgressesApiPOSTSerializer(serializers.Serializer):
     def validate_uid(self, data: str):
         if data:
             try:
-                Event.objects.get(uid=data)
+                self.event = Event.objects.get(uid=data)
             except Event.DoesNotExist:
                 raise serializers.ValidationError("Event with this uid Not Found.")
 
@@ -96,11 +98,14 @@ class EventProgressesApiPOSTSerializer(serializers.Serializer):
 class EventProgressesApiDELETESerializer(serializers.Serializer):
     username = serializers.CharField(label="ユーザ名", max_length=200, required=True)
     uid = serializers.CharField(label="uid", max_length=200, required=True)
+    user: User = None
+    event: Event = None
+    progress: EventProgress = None
 
     def validate_username(self, data: str):
         if data:
             try:
-                User.objects.get(username=data)
+                self.user = User.objects.get(username=data)
             except User.DoesNotExist:
                 raise serializers.ValidationError("User whose this username Not Found.")
 
@@ -109,7 +114,7 @@ class EventProgressesApiDELETESerializer(serializers.Serializer):
     def validate_uid(self, data: str):
         if data:
             try:
-                Event.objects.get(uid=data)
+                self.event = Event.objects.get(uid=data)
             except Event.DoesNotExist:
                 raise serializers.ValidationError("Event with this uid Not Found.")
 
@@ -117,13 +122,10 @@ class EventProgressesApiDELETESerializer(serializers.Serializer):
 
     def validate(self, data: dict):
         if data:
-            username = data.get("username")
-            uid = data.get("uid")
-
             try:
-                user = User.objects.get(username=username)
-                event = Event.objects.get(uid=uid)
-                EventProgress.objects.get(event=event, user=user)
+                self.progress = EventProgress.objects.get(
+                    event=self.event, user=self.user
+                )
             except EventProgress.DoesNotExist:
                 raise serializers.ValidationError(
                     "event progress with this username and uid is Not Found."
