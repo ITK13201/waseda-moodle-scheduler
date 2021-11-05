@@ -97,26 +97,25 @@ class EventProgressesApiPOSTSerializer(serializers.Serializer):
 
         return data
 
-    def save(self, commit=True) -> EventProgress:
+    def save(self) -> EventProgress:
         validated_data = self.validated_data
         progress_status = validated_data["status"]
         logger.info(validated_data)
 
         progress: EventProgress = None
-        if commit:
-            try:
-                progress = EventProgress.objects.related_other_models().get(
-                    event=self.event,
-                    user=self.user,
-                )
-            except EventProgress.DoesNotExist:
-                progress = EventProgress(
-                    event=self.event,
-                    user=self.user,
-                )
-            finally:
-                progress.status = progress_status
-                progress.save()
+        try:
+            progress = EventProgress.objects.related_other_models().get(
+                event=self.event,
+                user=self.user,
+            )
+        except EventProgress.DoesNotExist:
+            progress = EventProgress(
+                event=self.event,
+                user=self.user,
+            )
+        finally:
+            progress.status = progress_status
+            progress.save()
 
         return progress
 
@@ -150,7 +149,7 @@ class EventProgressesApiDELETESerializer(serializers.Serializer):
     def validate(self, data: dict):
         if data:
             try:
-                self.progress = EventProgress.objects.get(
+                self.progress = EventProgress.objects.related_other_models().get(
                     event=self.event, user=self.user
                 )
             except EventProgress.DoesNotExist:
@@ -159,3 +158,10 @@ class EventProgressesApiDELETESerializer(serializers.Serializer):
                 )
 
         return data
+
+    def delete(self) -> EventProgress:
+        validated_data = self.validated_data
+        logger.info(validated_data)
+
+        self.progress.delete()
+        return self.progress

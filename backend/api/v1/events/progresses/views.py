@@ -94,15 +94,10 @@ class EventProgressesAPIView(APIView):
 
         serializer = EventProgressesApiDELETESerializer(data=params)
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            username = validated_data["username"]
-            uid = validated_data["uid"]
-            logger.info(validated_data)
-
-            serializer.progress.delete()
+            progress = serializer.delete()
 
             return Response(
-                dict(username=username, uid=uid),
+                dict(username=progress.user.username, uid=progress.event.uid),
                 status=status.HTTP_200_OK,
             )
         else:
