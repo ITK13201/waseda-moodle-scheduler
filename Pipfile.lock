@@ -128,11 +128,11 @@
         },
         "djangorestframework": {
             "hashes": [
-                "sha256:48e64f08244fa0df9e2b8fbd405edec263d8e1251112a06d0073b546b7c86b9c",
-                "sha256:8b987d5683f5b3553dd946d4972048d3117fc526cb0bc01a3f021e81af53f39e"
+                "sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf",
+                "sha256:f747949a8ddac876e879190df194b925c177cdeb725a099db1460872f7c0a7f2"
             ],
             "index": "pypi",
-            "version": "==3.13.0"
+            "version": "==3.12.4"
         },
         "gunicorn": {
             "hashes": [
@@ -276,11 +276,7 @@
                 "sha256:22c7348c6d2976a52632c67f7ab0cdf40147db7789f9aed18734643fe9cf3373",
                 "sha256:4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e"
             ],
-<<<<<<< HEAD
             "index": "pypi",
-=======
-            "markers": "python_version >= '3.6'",
->>>>>>> dependabot/pip/master/djangorestframework-3.13.0
             "version": "==59.6.0"
         },
         "six": {
