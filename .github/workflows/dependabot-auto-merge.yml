@@ -13,7 +13,6 @@ jobs:
           token: ${{ secrets.GH_AUTOMERGE_TOKEN }}
       - name: "Merge dependabot pull requests automatically"
         uses: ahmadnassri/action-dependabot-auto-merge@v2
-        if: github.actor == 'dependabot[bot]'
         with:
           target: minor
           github-token: ${{ secrets.GH_AUTOMERGE_TOKEN }}
