@@ -295,11 +295,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:8244876a37456ccbcbe1247b4cba1b015f4e42dfebfadd6a5488bfc12060f21b",
-                "sha256:dae4d7933ca671d51fa44c10b4ef8165319d9be3aa41807dd4c73f1c1ba81dc3"
+                "sha256:4dcae26c87ddbd48275d24a8cb06c30b52503b2dd51619e3ec1bc63b45dacdea",
+                "sha256:8d1f26f7cc0c81b7b372b0d133bb8b1b0abbb36f2083cb4a474a8b64cede98a7"
             ],
             "index": "pypi",
-            "version": "==60.0.4"
+            "version": "==60.0.5"
         },
         "six": {
             "hashes": [
