@@ -15,7 +15,7 @@ pygithub = "*"
 djangorestframework = "*"
 
 [dev-packages]
-black = "==22.3.0"
+black = "==22.6.0"
 watchdog = "*"
 pyyaml = "*"
 argh = "*"
