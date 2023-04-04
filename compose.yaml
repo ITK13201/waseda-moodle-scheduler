@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+    python:
+        build:
+            context: .
+            dockerfile: ./docker/python/Dockerfile
+            target: development
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./waseda-moodle-scheduler:/waseda-moodle-scheduler
+            - ./log/waseda-moodle-scheduler:/var/log/waseda-moodle-scheduler
+        ports:
+            - 8000:8000
+        environment:
+            DATABASE_DB: "waseda_moodle_scheduler"
+            DATABASE_USER: "user"
+            DATABASE_PASSWORD: "password"
+            DATABASE_HOST: "mysql"
+            DATABASE_PORT: "3306"
+        env_file: ./waseda-moodle-scheduler/.env
+        depends_on:
+            - mysql
+    mysql:
+        build:
+            dockerfile: ./docker/mysql/Dockerfile
+            context: .
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_USER: "user"
+            MYSQL_PASSWORD: "password"
+            MYSQL_DATABASE: "waseda_moodle_scheduler"
+            TZ: "Asia/Tokyo"
+        ports:
+            - 3306:3306
+        volumes:
+            - ./docker/mysql/conf.d:/etc/mysql/conf.d
+            - mysql:/var/lib/mysql
+            - ./log/mysql:/var/log/mysql
+
+volumes:
+    mysql:
+        driver: local

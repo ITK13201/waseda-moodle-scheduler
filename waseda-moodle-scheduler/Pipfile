@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+ics = "*"
+requests = "*"
+django = "*"
+gunicorn = "*"
+pygithub = "*"
+djangorestframework = "*"
+mysqlclient = "*"
+
+[dev-packages]
+black = "*"
+watchdog = "*"
+pyyaml = "*"
+argh = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+start = "python manage.py runserver"
+migrate = "python manage.py migrate"
+makemigrations = "python manage.py makemigrations"
+shell = "python manage.py shell"
+watch = "watchmedo tricks-from tricks.yml"
+format = "black ."
+update = "python manage.py update_events_data"
+notify = "python manage.py notify_deadline"
