@@ -6,7 +6,6 @@ services:
             context: .
             dockerfile: ./docker/python/Dockerfile
             target: development
-        command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - ./waseda-moodle-scheduler:/waseda-moodle-scheduler
             - ./log/waseda-moodle-scheduler:/var/log/waseda-moodle-scheduler
