@@ -2,6 +2,7 @@ version: "3"
 
 services:
     python:
+        platform: linux/x86_64
         build:
             context: .
             dockerfile: ./docker/python/Dockerfile
@@ -21,6 +22,7 @@ services:
         depends_on:
             - mysql
     mysql:
+        platform: linux/x86_64
         build:
             dockerfile: ./docker/mysql/Dockerfile
             context: .
