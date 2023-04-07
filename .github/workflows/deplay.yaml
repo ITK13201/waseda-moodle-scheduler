@@ -1,0 +1,53 @@
+name: deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+env:
+  GCP_REGION: ${{ secrets.GCP_REGION_PRD }}
+  IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler:${{ github.sha }}
+  GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER: ${{ secrets.GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER }}
+  SERVICE_ACCOUNT_EMAIL: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          workload_identity_provider: "${{ env.GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER }}"
+          service_account: "${{ env.SERVICE_ACCOUNT_EMAIL }}"
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+      - name: Build a docker image
+        run: docker build -t ${{ env.IMAGE }} -f Dockerfile .
+      - name: Push the docker image
+        run: docker push ${{ env.IMAGE }}
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: waseda-moodle-scheduler
+          image: ${{ env.IMAGE }}
+          region: ${{ env.GCP_REGION }}
+      - name: Clean up Container images
+        run: |
+          gcloud container images list-tags "${BASE_IMAGE}" \
+            --filter="NOT tags:${GITHUB_SHA}" --format="get(digest)" | \
+          while read digest
+          do
+            gcloud container images delete -q --force-delete-tags "${BASE_IMAGE}@$digest"
+          done
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          BASE_IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler
