@@ -17,7 +17,7 @@ QUIT=0
 MIGRATION=0
 ENVIRONMENT=prod
 
-while getopts :dpwmqh OPT
+while getopts :dwmqh OPT
 do
     case $OPT in
     d)  ENVIRONMENT=dev
@@ -50,7 +50,7 @@ if [ "$QUIT" = "1" ]; then
 fi
 
 if [ "${ENVIRONMENT:-}" = "dev" ]; then
-    python manage.py runserver 0.0.0.0:8000
+    python manage.py runserver 0.0.0.0:80
 elif [ "${ENVIRONMENT:-}" = "prod" ]; then
     gunicorn -c /gunicorn/gunicorn.py
 fi

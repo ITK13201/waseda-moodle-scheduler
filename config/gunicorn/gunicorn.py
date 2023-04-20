@@ -1,5 +1,5 @@
 APP_NAME = "waseda-moodle-scheduler"
-PORT = 8000
+PORT = 80
 
 wsgi_app = "config.wsgi:application"
 bind = "0.0.0.0:{}".format(PORT)

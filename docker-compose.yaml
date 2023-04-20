@@ -5,12 +5,12 @@ services:
         build:
             context: .
             dockerfile: ./docker/python/Dockerfile
-            target: production
+            target: development
         volumes:
             - ./waseda-moodle-scheduler:/waseda-moodle-scheduler
             - ./log/waseda-moodle-scheduler:/var/log/waseda-moodle-scheduler
         ports:
-            - "8000:8000"
+            - "8000:80"
         environment:
             DB_NAME: "waseda_moodle_scheduler"
             DB_USER: "user"
