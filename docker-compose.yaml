@@ -2,22 +2,21 @@ version: "3"
 
 services:
     python:
-        platform: linux/x86_64
         build:
             context: .
             dockerfile: ./docker/python/Dockerfile
-            target: development
+            target: production
         volumes:
             - ./waseda-moodle-scheduler:/waseda-moodle-scheduler
             - ./log/waseda-moodle-scheduler:/var/log/waseda-moodle-scheduler
         ports:
-            - 8000:8000
+            - "8000:8000"
         environment:
-            DATABASE_DB: "waseda_moodle_scheduler"
-            DATABASE_USER: "user"
-            DATABASE_PASSWORD: "password"
-            DATABASE_HOST: "mysql"
-            DATABASE_PORT: "3306"
+            DB_NAME: "waseda_moodle_scheduler"
+            DB_USER: "user"
+            DB_PASSWORD: "password"
+            DB_HOST: "mysql"
+            DB_PORT: "3306"
         env_file: ./waseda-moodle-scheduler/.env
         depends_on:
             - mysql
@@ -34,7 +33,7 @@ services:
             MYSQL_DATABASE: "waseda_moodle_scheduler"
             TZ: "Asia/Tokyo"
         ports:
-            - 3306:3306
+            - "3306:3306"
         volumes:
             - ./docker/mysql/conf.d:/etc/mysql/conf.d
             - mysql:/var/lib/mysql

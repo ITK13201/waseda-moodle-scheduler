@@ -1,20 +1,20 @@
-from .common import *
+from .common_settings import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ["DATABASE_DB"],
-        "USER": os.environ["DATABASE_USER"],
-        "PASSWORD": os.environ["DATABASE_PASSWORD"],
-        "HOST": os.environ["DATABASE_HOST"],
-        "PORT": os.environ["DATABASE_PORT"],
+        "ENGINE": "db.vendor.django_psdb_engine",
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"],
     }
 }
 
@@ -41,7 +41,7 @@ LOGGING = {
     },
     "handlers": {
         "console": {
-            "level": "DEBUG",
+            "level": "INFO",
             "filters": ["require_debug_true"],
             "class": "logging.StreamHandler",
             "formatter": "verbose",
@@ -69,13 +69,8 @@ LOGGING = {
         },
         "app": {
             "handlers": ["console"],
-            "level": "DEBUG",
+            "level": "INFO",
             "propagate": False,
         },
-        # "django.db.backends": {
-        #     "handlers": ["console"],
-        #     "level": "DEBUG",
-        #     "propagate": False,
-        # },
     },
 }

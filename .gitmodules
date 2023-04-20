@@ -1,0 +1,3 @@
+[submodule "waseda-moodle-scheduler/db/vendor/django_psdb_engine"]
+	path = waseda-moodle-scheduler/db/vendor/django_psdb_engine
+	url = git@github.com:planetscale/django_psdb_engine.git
