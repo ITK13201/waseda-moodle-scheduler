@@ -6,8 +6,7 @@ on:
       - 'v*'
 env:
   GCP_REGION: ${{ secrets.GCP_REGION_PRD }}
-  IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler:${{ github.sha }}
-  LATEST_IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler:latest
+  IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler
   GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER: ${{ secrets.GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER }}
   SERVICE_ACCOUNT_EMAIL: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
 
@@ -32,11 +31,9 @@ jobs:
       - name: Authorize Docker push
         run: gcloud auth configure-docker
       - name: Build a docker image
-        run: |
-          docker build -t ${{ env.IMAGE }} -f ./docker/python/Dockerfile --target production .
-          docker build -t ${{ env.LATEST_IMAGE }} -f ./docker/python/Dockerfile --target production .
+        run: docker build -t ${{ env.IMAGE }}:${ github.sha } -t ${{ env.IMAGE }}:latest -f ./docker/python/Dockerfile --target production .
       - name: Push the docker image
-        run: docker push ${{ env.IMAGE }}
+        run: docker push -a ${{ env.IMAGE }}
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0
