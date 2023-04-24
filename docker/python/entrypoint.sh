@@ -52,5 +52,5 @@ fi
 if [ "${ENVIRONMENT:-}" = "dev" ]; then
     python manage.py runserver 0.0.0.0:80
 elif [ "${ENVIRONMENT:-}" = "prod" ]; then
-    gunicorn -c /gunicorn/gunicorn.py
+    python manage.py update_events_data
 fi
