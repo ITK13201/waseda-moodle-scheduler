@@ -27,3 +27,12 @@ variable "user" {
   type        = string
   default     = ""
 }
+
+variable "database_name" {}
+variable "database_user" {}
+variable "database_host" {}
+variable "database_password" {}
+variable "database_port" {
+  default = "3306"
+}
+variable "env_file_path" {}
