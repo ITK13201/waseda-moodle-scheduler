@@ -9,27 +9,27 @@ resource "google_cloud_run_v2_job" "default" {
       containers {
         image = var.container_image
         env {
-          name = "DATABASE_NAME",
+          name = "DATABASE_NAME"
           value = var.database_name
         }
         env {
-          name = "DATABASE_USER",
+          name = "DATABASE_USER"
           value = var.database_user
         }
         env {
-          name = "DATABASE_HOST",
+          name = "DATABASE_HOST"
           value = var.database_host
         }
         env {
-          name = "DATABASE_PASSWORD",
+          name = "DATABASE_PASSWORD"
           value = var.database_password
         }
         env {
-          name = "DATABASE_PORT",
+          name = "DATABASE_PORT"
           value = var.database_port
         }
         env {
-          name = "ENV_FILE_PATH",
+          name = "ENV_FILE_PATH"
           value = var.env_file_path
         }
       }
