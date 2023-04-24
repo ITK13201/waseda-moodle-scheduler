@@ -31,7 +31,7 @@ jobs:
       - name: Authorize Docker push
         run: gcloud auth configure-docker
       - name: Build a docker image
-        run: docker build -t ${{ env.IMAGE }}:${ github.sha } -t ${{ env.IMAGE }}:latest -f ./docker/python/Dockerfile --target production .
+        run: docker build -t ${{ env.IMAGE }}:${{ github.sha }} -t ${{ env.IMAGE }}:latest -f ./docker/python/Dockerfile --target production .
       - name: Push the docker image
         run: docker push -a ${{ env.IMAGE }}
       - name: Deploy to Cloud Run
