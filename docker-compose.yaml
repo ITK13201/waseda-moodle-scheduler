@@ -9,15 +9,16 @@ services:
         volumes:
             - ./waseda-moodle-scheduler:/waseda-moodle-scheduler
             - ./log/waseda-moodle-scheduler:/var/log/waseda-moodle-scheduler
+            - ./config/secrets:/etc/secrets
         ports:
             - "8000:80"
         environment:
-            DB_NAME: "waseda_moodle_scheduler"
-            DB_USER: "user"
-            DB_PASSWORD: "password"
-            DB_HOST: "mysql"
-            DB_PORT: "3306"
-        env_file: ./waseda-moodle-scheduler/.env
+            ENV_FILE_PATH: "/etc/secrets/.env"
+            DATABASE_NAME: "waseda_moodle_scheduler"
+            DATABASE_USER: "user"
+            DATABASE_PASSWORD: "password"
+            DATABASE_HOST: "mysql"
+            DATABASE_PORT: "3306"
         depends_on:
             - mysql
     mysql:

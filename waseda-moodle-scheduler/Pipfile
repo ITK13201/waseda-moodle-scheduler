@@ -11,6 +11,7 @@ gunicorn = "*"
 pygithub = "*"
 djangorestframework = "*"
 mysqlclient = "*"
+python-dotenv = "*"
 
 [dev-packages]
 black = "*"

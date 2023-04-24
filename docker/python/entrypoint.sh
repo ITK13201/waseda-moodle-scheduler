@@ -37,7 +37,7 @@ done
 
 if [ "$WAIT" = "1" ]; then
     echo "Waiting for db"
-    dockerize -wait tcp://$DB_HOST:$DB_PORT -timeout 480s
+    dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 480s
 fi
 
 if [ "$MIGRATION" = "1" ]; then

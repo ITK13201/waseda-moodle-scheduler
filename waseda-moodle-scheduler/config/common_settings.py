@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -120,6 +122,9 @@ APPEND_SLASH = False
 # ====================
 # Secret Environment
 # ====================
+ENV_FILE_PATH = os.environ.get("ENV_FILE_PATH", os.path.join(BASE_DIR, ".env"))
+load_dotenv(dotenv_path=ENV_FILE_PATH)
+
 MOODLE_CALENDAR_URL = os.environ.get("MOODLE_CALENDAR_URL")
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 GITHUB_ACCESS_TOKEN = os.environ.get("GITHUB_ACCESS_TOKEN")

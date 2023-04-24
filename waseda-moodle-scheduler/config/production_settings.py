@@ -10,11 +10,11 @@ ALLOWED_HOSTS = ["*"]
 DATABASES = {
     "default": {
         "ENGINE": "db.vendor.django_psdb_engine",
-        "NAME": os.environ["DB_NAME"],
-        "USER": os.environ["DB_USER"],
-        "PASSWORD": os.environ["DB_PASSWORD"],
-        "HOST": os.environ["DB_HOST"],
-        "PORT": os.environ["DB_PORT"],
+        "NAME": os.environ["DATABASE_NAME"],
+        "USER": os.environ["DATABASE_USER"],
+        "PASSWORD": os.environ["DATABASE_PASSWORD"],
+        "HOST": os.environ["DATABASE_HOST"],
+        "PORT": os.environ["DATABASE_PORT"],
     }
 }
 
