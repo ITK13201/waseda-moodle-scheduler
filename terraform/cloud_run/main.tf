@@ -12,14 +12,15 @@ data "google_iam_policy" "cloud_run_public" {
   binding {
     role = "roles/run.invoker"
     members = [
-      "allUsers",
+      "serviceAccount:${var.service_account}",
+      "user:${var.user}"
     ]
   }
 }
 
 resource "google_cloud_run_v2_job_iam_policy" "policy" {
-  project = google_cloud_run_v2_job.default.project
-  location = google_cloud_run_v2_job.default.location
-  name = google_cloud_run_v2_job.default.name
+  project     = google_cloud_run_v2_job.default.project
+  location    = google_cloud_run_v2_job.default.location
+  name        = google_cloud_run_v2_job.default.name
   policy_data = data.google_iam_policy.cloud_run_public.policy_data
 }

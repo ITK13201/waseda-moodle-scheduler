@@ -1,7 +1,7 @@
 resource "google_cloud_run_v2_job" "default" {
-  name     = "waseda-moodle-scheduler"
-  project = var.project
-  location = var.location
+  name         = "waseda-moodle-scheduler"
+  project      = var.project
+  location     = var.location
   launch_stage = "BETA"
 
   template {

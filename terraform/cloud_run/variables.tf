@@ -21,3 +21,9 @@ variable "service_account" {
   type        = string
   default     = ""
 }
+
+variable "user" {
+  description = "Email address of User"
+  type        = string
+  default     = ""
+}
