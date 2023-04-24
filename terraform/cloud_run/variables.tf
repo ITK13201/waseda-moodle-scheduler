@@ -16,7 +16,7 @@ variable "container_image" {
   default     = ""
 }
 
-variable "service_account_name" {
+variable "service_account" {
   description = "Email address of the IAM service account"
   type        = string
   default     = ""

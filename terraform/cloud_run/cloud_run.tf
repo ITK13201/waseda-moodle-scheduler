@@ -1,19 +1,21 @@
-resource "google_cloud_run_service" "default" {
+resource "google_cloud_run_v2_job" "default" {
   name     = "waseda-moodle-scheduler"
   project = var.project
   location = var.location
-  autogenerate_revision_name = true
+  launch_stage = "BETA"
 
   template {
-    spec {
+    template {
       containers {
         image = var.container_image
       }
-      service_account_name = var.service_account_name
+      service_account = var.service_account
     }
   }
-}
 
-output "url" {
-  value = google_cloud_run_service.default.status[0].url
+  lifecycle {
+    ignore_changes = [
+      launch_stage,
+    ]
+  }
 }

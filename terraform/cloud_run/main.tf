@@ -17,10 +17,9 @@ data "google_iam_policy" "cloud_run_public" {
   }
 }
 
-resource "google_cloud_run_v2_service_iam_policy" "policy" {
-  location = google_cloud_run_service.default.location
-  project  = google_cloud_run_service.default.project
-  name  = google_cloud_run_service.default.name
-
+resource "google_cloud_run_v2_job_iam_policy" "policy" {
+  project = google_cloud_run_v2_job.default.project
+  location = google_cloud_run_v2_job.default.location
+  name = google_cloud_run_v2_job.default.name
   policy_data = data.google_iam_policy.cloud_run_public.policy_data
 }
