@@ -32,8 +32,9 @@ jobs:
       - name: Authorize Docker push
         run: gcloud auth configure-docker
       - name: Build a docker image
-        run: docker build -t ${{ env.IMAGE }} -f ./docker/python/Dockerfile --target production . \
-             && docker build -t ${{ env.LATEST_IMAGE }} -f ./docker/python/Dockerfile --target production .
+        run: |
+          docker build -t ${{ env.IMAGE }} -f ./docker/python/Dockerfile --target production .
+          docker build -t ${{ env.LATEST_IMAGE }} -f ./docker/python/Dockerfile --target production .
       - name: Push the docker image
         run: docker push ${{ env.IMAGE }}
       - name: Deploy to Cloud Run
