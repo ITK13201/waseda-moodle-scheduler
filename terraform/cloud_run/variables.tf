@@ -38,5 +38,9 @@ variable "database_port" {
 variable "mysql_attr_ssl_ca" {
   default = "/etc/ssl/cert.pem"
 }
+variable "secret_key" {}
+variable "django_settings_module" {
+  default = "config.production_settings"
+}
 variable "prod_env_file_dir" {}
 variable "local_env_file_path" {}

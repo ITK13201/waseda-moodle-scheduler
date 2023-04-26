@@ -14,6 +14,7 @@ services:
             - "8000:80"
         environment:
             ENV_FILE_PATH: "/etc/secrets/.env"
+            DJANGO_SETTINGS_MODULE: "config.local_settings"
             DATABASE_NAME: "waseda_moodle_scheduler"
             DATABASE_USER: "user"
             DATABASE_PASSWORD: "password"

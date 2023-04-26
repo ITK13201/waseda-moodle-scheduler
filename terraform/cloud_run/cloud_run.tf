@@ -12,6 +12,7 @@ resource "google_cloud_run_v2_job" "default" {
           name       = "env-file-volume"
           mount_path = var.prod_env_file_dir
         }
+        # database info
         env {
           name  = "DATABASE_NAME"
           value = var.database_name
@@ -33,9 +34,19 @@ resource "google_cloud_run_v2_job" "default" {
           value = var.database_port
         }
         env {
-          name = "MYSQL_ATTR_SSL_CA"
+          name  = "MYSQL_ATTR_SSL_CA"
           value = var.mysql_attr_ssl_ca
         }
+        # django info
+        env {
+          name  = "SECRET_KEY"
+          value = var.secret_key
+        }
+        env {
+          name  = "DJANGO_SETTINGS_MODULE"
+          value = var.django_settings_module
+        }
+        # others
         env {
           name  = "ENV_FILE_PATH"
           value = "${var.prod_env_file_dir}/.env"
