@@ -35,4 +35,5 @@ variable "database_password" {}
 variable "database_port" {
   default = "3306"
 }
-variable "env_file_path" {}
+variable "prod_env_file_dir" {}
+variable "local_env_file_path" {}

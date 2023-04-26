@@ -34,13 +34,6 @@ jobs:
         run: docker build -t ${{ env.IMAGE }}:${{ github.sha }} -t ${{ env.IMAGE }}:latest -f ./docker/python/Dockerfile --target production .
       - name: Push the docker image
         run: docker push -a ${{ env.IMAGE }}
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v0
-        with:
-          service: waseda-moodle-scheduler
-          image: ${{ env.IMAGE }}
-          region: ${{ env.GCP_REGION }}
       - name: Clean up Container images
         run: |
           gcloud container images list-tags "${BASE_IMAGE}" \
