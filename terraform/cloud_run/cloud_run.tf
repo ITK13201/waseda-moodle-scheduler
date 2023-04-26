@@ -43,7 +43,7 @@ resource "google_cloud_run_v2_job" "default" {
           secret       = google_secret_manager_secret.secret.secret_id
           default_mode = 292 # 0444
           items {
-            version = "1"
+            version = "latest"
             path    = ".env"
             mode    = 256 # 0400
           }
