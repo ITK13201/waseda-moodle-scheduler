@@ -33,6 +33,10 @@ resource "google_cloud_run_v2_job" "default" {
           value = var.database_port
         }
         env {
+          name = "MYSQL_ATTR_SSL_CA"
+          value = var.mysql_attr_ssl_ca
+        }
+        env {
           name  = "ENV_FILE_PATH"
           value = "${var.prod_env_file_dir}/.env"
         }
