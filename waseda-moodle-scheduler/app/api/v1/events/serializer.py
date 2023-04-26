@@ -20,6 +20,7 @@ REPLACED_VALUES_WITH_QUERY = {
 
 logger = logging.getLogger(__name__)
 
+
 # sample query
 # GET /api/v1/events/?title=hoge&subject=hoge&from_deadline=YYYYMMDD&to_deadline=YYYYMMDD&order=ASC&limit=100
 class EventsApiSerializer(serializers.Serializer):

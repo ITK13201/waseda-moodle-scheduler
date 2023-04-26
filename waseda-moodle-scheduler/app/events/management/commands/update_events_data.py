@@ -14,7 +14,6 @@ class Command(BaseCommand):
     help = "Update events data"
 
     def handle(self, *args, **options):
-
         try:
             self.update_events()
         except Exception as err:

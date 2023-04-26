@@ -31,18 +31,21 @@ class EventAdmin(admin.ModelAdmin):
 
 class EventProgressAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "status", "event", "subject", "title", "description")
-    ordering = ("user", "status",)
+    ordering = (
+        "user",
+        "status",
+    )
     fields = ("event", "user", "status")
 
     def subject(self, obj: EventProgress):
         return obj.event.subject
-    
+
     def title(self, obj: EventProgress):
         return obj.event.title
-    
+
     def description(self, obj: EventProgress):
         return obj.event.description
-    
+
     subject.short_description = "科目名"
     title.short_description = "タイトル"
     description.short_description = "説明"

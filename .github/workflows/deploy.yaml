@@ -9,6 +9,7 @@ env:
   IMAGE: asia.gcr.io/${{ secrets.GCP_PROJECT_ID_PRD }}/waseda-moodle-scheduler
   GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER: ${{ secrets.GOOGLE_IAM_WORKLOAD_IDENTITY_POOL_PROVIDER }}
   SERVICE_ACCOUNT_EMAIL: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+  SUBMODULE_TOKEN: ${{ secrets.SUBMODULE_TOKEN }}
 
 jobs:
   build:
@@ -21,6 +22,10 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ env.SUBMODULE_TOKEN }}
+          submodules: true
       - id: "auth"
         uses: "google-github-actions/auth@v0"
         with:
