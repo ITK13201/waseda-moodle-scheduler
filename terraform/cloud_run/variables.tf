@@ -36,7 +36,7 @@ variable "database_port" {
   default = "3306"
 }
 variable "mysql_attr_ssl_ca" {
-  default = "/etc/ssl/cert.pem"
+  default = "/etc/ssl/certs/ca-certificates.crt"
 }
 variable "secret_key" {}
 variable "django_settings_module" {

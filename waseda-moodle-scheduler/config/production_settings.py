@@ -16,6 +16,7 @@ DATABASES = {
         "HOST": os.environ["DATABASE_HOST"],
         "PORT": os.environ["DATABASE_PORT"],
         "OPTIONS": {
+            # See the documentation at this link: https://planetscale.com/docs/concepts/secure-connections#ca-root-configuration
             "ssl": {"ca": os.environ["MYSQL_ATTR_SSL_CA"]},
             "charset": "utf8mb4",
         },
