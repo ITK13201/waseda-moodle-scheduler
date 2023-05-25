@@ -1,10 +1,9 @@
 import logging
 from copy import deepcopy
 
-from rest_framework import serializers
-
 from django.core.validators import RegexValidator
 from django.db.models import QuerySet
+from rest_framework import serializers
 
 from app.events.models import Event
 

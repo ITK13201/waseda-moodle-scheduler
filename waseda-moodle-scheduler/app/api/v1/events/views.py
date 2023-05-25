@@ -1,13 +1,13 @@
 import logging
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from app.usecases.utils import convert_datetime_timezone
-from .serializer import EventsApiSerializer
 
+from .serializer import EventsApiSerializer
 
 logger = logging.getLogger(__name__)
 

@@ -1,17 +1,16 @@
 import logging
 from copy import deepcopy
 
+from django.core.validators import RegexValidator
 from rest_framework import serializers
 
-from django.core.validators import RegexValidator
-
-from app.users.models import User
 from app.events.models import (
     STATUS_CHOICES,
     Event,
     EventProgress,
     EventProgressesQuerySet,
 )
+from app.users.models import User
 
 ORDER_VALIDATOR = RegexValidator(
     regex="(ASC|DESC)", message="Order param must be ASC or DESC."

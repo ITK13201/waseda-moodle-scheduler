@@ -1,8 +1,9 @@
-import ics
 import traceback
+
+import ics
 import requests
-from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
 from app.events.models import Event
 from app.usecases.discord import bot

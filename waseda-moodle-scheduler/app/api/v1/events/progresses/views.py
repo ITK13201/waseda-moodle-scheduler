@@ -2,19 +2,19 @@ import logging
 from typing import List
 
 from django.forms.models import model_to_dict
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
 from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .serializer import (
-    EventProgressesApiGETSerializer,
-    EventProgressesApiPOSTSerializer,
-    EventProgressesApiDELETESerializer,
-)
 from app.events.models import EventProgressesQuerySet
 from app.usecases.utils import convert_datetime_timezone
 
+from .serializer import (
+    EventProgressesApiDELETESerializer,
+    EventProgressesApiGETSerializer,
+    EventProgressesApiPOSTSerializer,
+)
 
 logger = logging.getLogger(__name__)
 

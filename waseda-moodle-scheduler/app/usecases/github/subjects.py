@@ -1,8 +1,8 @@
+import base64
+import json
 import os
 
 import requests
-import json
-import base64
 from django.conf import settings
 from github import Github
 

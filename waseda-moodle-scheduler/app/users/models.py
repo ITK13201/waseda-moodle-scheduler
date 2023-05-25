@@ -1,8 +1,9 @@
 # https://github.com/django/django/blob/master/django/contrib/auth/models.py
 
-from django.db import models
-from django.contrib.auth.models import AbstractUser
 import uuid
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class User(AbstractUser):

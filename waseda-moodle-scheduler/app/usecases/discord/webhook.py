@@ -1,8 +1,9 @@
-import requests
 import json
+
+import requests
 from django.conf import settings
 
-from .utils import PREVIOUS_TEXT, ICON_PATH, get_embed_contents
+from .utils import ICON_PATH, PREVIOUS_TEXT, get_embed_contents
 
 DISCORD_WEBHOOK_URL = settings.DISCORD_WEBHOOK_URL
 

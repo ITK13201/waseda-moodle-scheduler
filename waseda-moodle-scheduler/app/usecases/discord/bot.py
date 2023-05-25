@@ -1,9 +1,11 @@
-import requests
 import json
+
+import requests
 from django.conf import settings
 
-from .utils import PREVIOUS_TEXT, get_embed_contents
 from app.usecases.github.subjects import get_subjects
+
+from .utils import PREVIOUS_TEXT, get_embed_contents
 
 DISCORD_BOT_TOKEN = settings.DISCORD_BOT_TOKEN
 SUBJECTS = get_subjects()

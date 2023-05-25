@@ -18,6 +18,7 @@ black = "*"
 watchdog = "*"
 pyyaml = "*"
 argh = "*"
+isort = "*"
 
 [requires]
 python_version = "3.11"
