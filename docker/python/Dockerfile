@@ -33,12 +33,12 @@ COPY ./${APP_NAME}/Pipfile.lock  ./Pipfile.lock
 RUN pipenv install --ignore-pipfile --deploy --system --dev
 
 COPY ./${APP_NAME} .
-COPY ./docker/python/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY ./docker/python/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 COPY --from=tools /usr/local/bin/dockerize /usr/local/bin
 
-ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["sh", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["-d", "-w", "-m"]
 
 FROM python:3.11-buster AS production
@@ -63,13 +63,13 @@ COPY ./${APP_NAME}/Pipfile.lock ./Pipfile.lock
 RUN pipenv install --ignore-pipfile --deploy --system
 
 COPY ./${APP_NAME} .
-COPY ./docker/python/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY ./docker/python/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 COPY --from=tools /usr/local/bin/dockerize /usr/local/bin
 
 RUN mkdir /gunicorn
 COPY ./config/gunicorn /gunicorn
 
-ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["sh", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["-w", "-m"]
