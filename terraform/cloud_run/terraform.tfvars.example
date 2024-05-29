@@ -1,0 +1,12 @@
+project             =
+location            =
+container_image     =
+service_account     =
+user                =
+database_name       =
+database_user       =
+database_host       =
+database_password   =
+secret_key          =
+prod_env_file_dir   =
+local_env_file_path =
